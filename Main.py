@@ -8,16 +8,23 @@
 #           Historical data and pridict for 10 days
 # ###########################################################
 
-# from Helper import Helper as hp
+from Helper import Helper
 
-import datetime
+print(" ===========================================================")
+print(" Welcome to Bitcoin Price Predicon ver 0.2")
+print(" ===========================================================")
 
+hp = Helper()  # Init Hepler class
+# ===========================================================
+Data = hp.Get_Historicalprice()  # get data
+print(" Data  Shape : " + str(Data.shape))
+# ===========================================================
+Org_data = Data.copy()  # Make copy of org data -_o
+# ===========================================================
+Data = hp.Normalize(Data)  # normalize data
+# ===========================================================
+Train, Test = hp.Split_Test_Train(Data, 0)  # splitdata
+print(" Train Shape : " + str(Train.shape))
+print(" Test  Shape : " + str(Test.shape))
+# ===========================================================
 
-def Run():
-    # Data = hp.Get_Historicalprice()
-        # f = now-(days=365)
-    date_from = datetime.datetime.now() - datetime.timedelta(days=(5*365.24))
-    date_to = datetime.datetime.now()
-    print(date_from.strftime("%Y-%m-%d"))
-
-Run()

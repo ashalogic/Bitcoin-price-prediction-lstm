@@ -107,19 +107,20 @@ for i in range(0, 10):
 print(tailofdata)
 print(tailofdataorg)
 
-df=df.append(tailofdataorg)
+df = df.append(tailofdataorg)
 
 dddds = tailofdataorg.values  # returns a numpy array
 dddd_scaleds = min_max_scaler.inverse_transform(dddds)
 dddds = pandas.DataFrame(dddd_scaleds, tailofdataorg.index)
 print(df)
-dddd=min_max_scaler.inverse_transform()
+dddd = min_max_scaler.inverse_transform()
 
 pyplot.plot(df["2019-05-01":])
 pyplot.plot(dddds)
 pyplot.show()
 
 model.e
+
 
 def predict(day):
 
