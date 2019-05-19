@@ -66,12 +66,12 @@ history = LSTM_Model.evaluate(X_Test, Y_Test)  # Evaluate Model -_o
 # ===========================================================
 Y_Test = Y_Test.reshape(len(Y_Test), features)  # Reshape Y_Test back
 # ===========================================================
-# print(Y_Test)
-# print(PY_Test)
-# plt.plot(hp.Denormalize(Y_Test), color='green', label='Test Real Price')
-# plt.plot(hp.Denormalize(PY_Test), color='orange', label='Test Predict Price')
-# plt.legend() 
-# plt.show()
+print(Y_Test)
+print(PY_Test)
+plt.plot(hp.Denormalize(Y_Test), color='green', label='Test Real Price')
+plt.plot(hp.Denormalize(PY_Test), color='orange', label='Test Predict Price')
+plt.legend() 
+plt.show()
 # ===========================================================
 daystopredict = 180
 nextdays = hp.build_NextDays(Data, daystopredict, window_size, LSTM_Model)
