@@ -64,18 +64,17 @@ class Funcs:
         model.compile(loss="mae", optimizer="adam")
         return model
 
-        def build_NextDays(self, df, days, window_size, model, features=1):
-            df = df[len(df)-window_size:]
-            predictdf = pandas.DataFrame()
-            for i in range(0, days):
-                dfarray = numpy.array(df.values)
-                dfarray = dfarray.reshape(1, window_size, features)
-                predictvalue = model.predict(dfarray)
-                df = df.drop(df.index[0])
-                last_date = df.iloc[[-1]].index
-                last_date = last_date + datetime.timedelta(days=1)
-                df = df.append(
-                    pandas.DataFrame(predictvalue, index=last_date))
-                predictdf = predictdf.append(
-                    pandas.DataFrame(predictvalue, index=last_date))
-            return predictdf
+    def build_NextDays(self, df, days, window_size, model, features=1):
+        df = df[len(df)-window_size:]
+        predictdf = pandas.DataFrame()
+        for i in range(0, days):
+            dfarray = numpy.array(df.values)
+            dfarray = dfarray.reshape(1, window_size, features)
+            predictvalue = model.predict(dfarray)
+            df = df.drop(df.index[0])
+            last_date = df.iloc[[-1]].index
+            last_date = last_date + datetime.timedelta(days=1)
+            df = df.append(pandas.DataFrame(predictvalue, index=last_date))
+            predictdf = predictdf.append(
+                pandas.DataFrame(predictvalue, index=last_date))
+        return predictdf
