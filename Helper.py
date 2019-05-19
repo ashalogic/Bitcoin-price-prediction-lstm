@@ -3,9 +3,11 @@ import pandas
 import datetime
 import requests
 from sklearn import preprocessing
+from keras.models import Sequential
+from keras.layers import LSTM, Dense, Dropout, Activation
 
 
-class Helper:
+class Funcs:
 
     def __init__(self):
         self.min_max_scaler = preprocessing.MinMaxScaler()
@@ -32,15 +34,44 @@ class Helper:
         return df
 
     # Denormalize a dataframe from last min max scaler
-    def Denormalize(self, df):
-        x = df.values  # returns a numpy array
-        x_orginal = self.min_max_scaler.inverse_transform(x)
-        df = pandas.DataFrame(x_orginal, df.index)
-        return df
+    def Denormalize(self, x_scaled):
+        x_orginal = self.min_max_scaler.inverse_transform(x_scaled)
+        return x_orginal
 
+    # split Data to Train and Test
     def Split_Test_Train(self, df, Test_size=0.1):
-        # split
         sp = len(df)-Test_size
         Train = df[:sp]
         Test = df[sp:]
         return Train, Test
+
+    # Conver Time series to Supervised Learning
+    def Convert_TS_To_SL(self, data, window_size):
+        temp_data = data.copy()
+        for i in range(window_size):
+            temp_data = pandas.concat([temp_data, data.shift(-(i+1))], axis=1)
+        temp_data.dropna(inplace=True)
+        temp_data = temp_data.iloc[:, :-1]
+        return temp_data
+
+    def build_LSTM(self, window_size, features=1):
+        model = Sequential()
+        model.add(LSTM(20, input_shape=(window_size, features)))
+        model.add(Dropout(0.25))
+        model.add(Dense(units=1))
+        model.add(Activation('linear'))
+        model.compile(loss="mae", optimizer="adam")
+        return model
+
+    def build_NextDays(self, days, window_size, features=1):
+        for i in range(0, 10):
+            sdd = numpy.array(tailofdata.values)
+            sdd = sdd.reshape(1, window_size, features)
+            ps = (model.predict(sdd))
+            tailofdata = tailofdata.drop(tailofdata.index[0])
+            last_date = tailofdata.iloc[[-1]].index
+            last_date = last_date + timedelta(days=1)
+            tailofdata = tailofdata.append(
+                pandas.DataFrame(ps, index=last_date))
+            tailofdataorg = tailofdataorg.append(
+                pandas.DataFrame(ps[0], index=last_date))
