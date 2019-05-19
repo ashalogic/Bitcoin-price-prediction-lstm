@@ -107,13 +107,13 @@ for i in range(0, 10):
 print(tailofdata)
 print(tailofdataorg)
 
-df = df.append(tailofdataorg)
+df=df.append(tailofdataorg)
 
 dddds = tailofdataorg.values  # returns a numpy array
 dddd_scaleds = min_max_scaler.inverse_transform(dddds)
 dddds = pandas.DataFrame(dddd_scaleds, tailofdataorg.index)
 print(df)
-dddd = min_max_scaler.inverse_transform()
+dddd=min_max_scaler.inverse_transform()
 
 pyplot.plot(df["2019-05-01":])
 pyplot.plot(dddds)
@@ -121,7 +121,28 @@ pyplot.show()
 
 model.e
 
-
 def predict(day):
 
     # for 10 days pridict
+
+# Y_PY_Compare_ax[0].title(
+#     "Last "+str(LastdaysForTest)+" Real Vs Predict Price")
+# Y_PY_Compare_ax[0].plot(Y_Test, color='green', label='Real Price')
+# Y_PY_Compare_ax[0].plot(PY_Test, color='orange', label='Predict Price')
+# Y_PY_Compare_ax.legend()
+# Y_PY_Compare_ax.ylabel('Time')
+# Y_PY_Compare_ax.yaxis.title('USD (scaled)')
+
+# Y_PY_Compare_fig.show()
+
+# Y_PY_Compare_Fig = plt.figure()  # an empty figure with no axes
+# Y_PY_Compare_Fig = Y_PY_Compare_Fig.subplots()
+# Y_PY_Compare_Fig.show()
+# fig, ax_lst = pyplot.subplots(2, 1)
+# fig, ax = pyplot.subplots(2, 1)
+
+# ax_lst[0].plot(Y_Test)
+# ax_lst[1].plot(PY_Test)
+# pyplot.plot(Y_Test, color='green', thikness=2)
+# pyplot.plot(Y_Test, color='orange')
+# fig.show()

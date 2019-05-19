@@ -1,5 +1,6 @@
 import json
 import pandas
+import numpy
 import datetime
 import requests
 from sklearn import preprocessing
@@ -63,15 +64,18 @@ class Funcs:
         model.compile(loss="mae", optimizer="adam")
         return model
 
-    def build_NextDays(self, days, window_size, features=1):
-        for i in range(0, 10):
-            sdd = numpy.array(tailofdata.values)
-            sdd = sdd.reshape(1, window_size, features)
-            ps = (model.predict(sdd))
-            tailofdata = tailofdata.drop(tailofdata.index[0])
-            last_date = tailofdata.iloc[[-1]].index
-            last_date = last_date + timedelta(days=1)
-            tailofdata = tailofdata.append(
-                pandas.DataFrame(ps, index=last_date))
-            tailofdataorg = tailofdataorg.append(
-                pandas.DataFrame(ps[0], index=last_date))
+        def build_NextDays(self, df, days, window_size, model, features=1):
+            df = df[len(df)-window_size:]
+            predictdf = pandas.DataFrame()
+            for i in range(0, days):
+                dfarray = numpy.array(df.values)
+                dfarray = dfarray.reshape(1, window_size, features)
+                predictvalue = model.predict(dfarray)
+                df = df.drop(df.index[0])
+                last_date = df.iloc[[-1]].index
+                last_date = last_date + datetime.timedelta(days=1)
+                df = df.append(
+                    pandas.DataFrame(predictvalue, index=last_date))
+                predictdf = predictdf.append(
+                    pandas.DataFrame(predictvalue, index=last_date))
+            return predictdf
